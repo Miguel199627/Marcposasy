@@ -1,0 +1,28 @@
+<div id="modal_editadd" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" action="marca/guardar">
+        <div class="header-modal">
+          <h5 class="modal-title"><i class="icon ion-md-add"></i> Agregar {{title}}</h5>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12">
+            <div class="alert-container"></div>
+            <input id="id" type="hidden" name="id" value="">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="descripcion">Descripción</label>
+                <input id="descripcion" type="text" name="descripcion" class="form-control"  value="" placeholder="Ingrese la descripción">
+                <span data-key="descripcion" class="badge badge-dark"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-modal">
+          <button type="submit" data-ajax="true" class="btn btn-success btn-sm">Guardar</button>
+          <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

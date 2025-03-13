@@ -1,0 +1,78 @@
+{% extends "include/layout.twig" %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="col-md-12">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{'home'|url}}"><i class="fas fa-home"></i> Home</a></li>
+            <li class="breadcrumb-item"><i class="fas fa-tablet"></i> Resultados</li>
+        </ol>
+    </div>
+  </div>
+</div>
+  <div class="row">
+    <div class="{{ model.alert }} {{ model.alert_type }}" style="width:100%;">{{ model.error }}</div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">Mantenimiento</div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                      <td><i class="fa fa-archive"></i> Productos</td>
+                      <td class="text-right">{{ model.productos|number_format(0) }}</td>
+                    </tr>
+                    <tr>
+                      <td><i class="fa fa-user"></i> Clientes</td>
+                      <td class="text-right">{{ model.clientes|number_format(0) }}</td>
+                    </tr>
+                    <tr>
+                      <td><i class="fa fa-user"></i> Usuarios</td>
+                      <td class="text-right">{{ model.usuarios|number_format(0) }}</td>
+                    </tr>
+                    <tr>
+                      <td><i class="fas fa-user-tag"></i> Roles</td>
+                      <td class="text-right">{{ model.roles|number_format(0) }}</td>
+                    </tr>
+                    <tr>
+                      <td><i class="fas fa-copyright"></i> Marcas</td>
+                      <td class="text-right">{{ model.marcas|number_format(0) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">Ventas</div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td><i class="fas fa-file-invoice-dollar"></i> Comprobantes</td>
+                <td class="text-right">{{ model.comprobantes|number_format(0) }}</td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-money-bill"></i> Utilidad del Mes</td>
+                <td class="text-right">COP {{ model.utilidad_mensual|number_format(2) }}</td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-money-bill"></i> Utilidad Total</td>
+                <td class="text-right">COP {{ model.utilidad_total|number_format(2) }}</td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-box"></i> Productos por Mes</td>
+                <td class="text-right">{{ model.productos_mensual|number_format(0) }}</td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-boxes"></i> Total de Productos Vendidos</td>
+                <td class="text-right">{{ model.productos_totales|number_format(0) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

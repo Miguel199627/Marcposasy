@@ -1,0 +1,51 @@
+<div id="modal_editadd" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" action="cliente/actualizar">
+        <div class="header-modal">
+          <h5 class="modal-title"><i class="icon ion-md-create"></i> Editar {{title}}</h5>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12">
+            <div class="alert-container"></div>
+            <input id="id" type="hidden" name="id" value="{{model.id}}">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="nombres">Nombre</label>
+                <input id="nombres" type="text" name="nombres" class="form-control"  value="{{model.nombres}}" placeholder="Ingrese el nombre del cliente">
+                <span data-key="nombres" class="badge badge-dark"></span>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="apellidos">Apellido</label>
+                <input id="apellidos" type="text" name="apellidos" class="form-control"  value="{{model.apellidos}}" placeholder="Ingrese el apellido del cliente">
+                <span data-key="apellidos" class="badge badge-dark"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="direccion">Dirección</label>
+                <input id="direccion" type="text" name="direccion" class="form-control"  value="{{model.direccion}}" placeholder="Ingrese la dirección del cliente">
+                <span data-key="direccion" class="badge badge-dark"></span>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="telefono">Telefono</label>
+                <input id="telefono" type="text" name="telefono" class="form-control"  value="{{model.telefono}}" placeholder="Ingrese el telefono del cliente">
+                <span data-key="telefono" class="badge badge-dark"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="email">Correo</label>
+                <input id="email" type="text" name="email" class="form-control"  value="{{model.email}}" placeholder="Ingrese el correo del cliente">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-modal">
+          <button type="submit" data-ajax="true" class="btn btn-success btn-sm">Actualizar</button>
+          <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

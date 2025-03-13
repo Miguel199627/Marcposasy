@@ -1,0 +1,462 @@
+{% extends "include/layout.twig" %}
+{% block content %}
+<section class="content">
+  <div class="row mb-2">
+    <div class="col-md-12">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{{'home'|url}}"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item"><i class="fas fa-shopping-bag"></i> Ventas</li>
+        </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card box_principal">
+        <div class="card-header">
+          <h3 class="card-title"><strong style="text-transform: uppercase;">Modulo de {{title}}</strong></h3>
+          <div class="card-tools float-right">
+            <button class="btn btn-primary btn-sm" id="procesar" title="Finalizar venta"><i class="fas fa-save"></i></button>
+            <button class="btn btn-danger btn-sm" id="cancelar"  title="Cancelar venta"><i class="fas fa-ban"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card box_cliente">
+            <div class="card-header">
+              <h3 class="card-title"><strong style="text-transform: uppercase;">Datos del cliente</strong></h3>
+              <div class="card-tools float-right">
+              <button class="btn btn-default btn-sm" id="grabar" title="Grabar cliente"><i class="fas fa-save"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <form id="fcliente">
+                <div class="col-lg-12">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                      <label class="text-left full-width" for="id">Identificación</label>
+                      <input id="id" type="text" name="id" class="form-control"  value="" placeholder="Ingrese el numero de indentificación">
+                      <span data-key="id" class="badge badge-dark"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                      <label class="text-left full-width" for="nombres">Nombre</label>
+                      <input disabled id="nombres" type="text" name="nombres" class="form-control"  value="">
+                      <span data-key="nombres" class="badge badge-dark"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                      <label class="text-left full-width" for="apellidos">Apellido</label>
+                      <input disabled id="apellidos" type="text" name="apellidos" class="form-control"  value="">
+                      <span data-key="apellidos" class="badge badge-dark"></span>
+                    </div>
+                    <br>
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                      <label class="text-left full-width" for="direccion">Dirección</label>
+                      <input disabled id="direccion" type="text" name="direccion" class="form-control"  value="">
+                      <span data-key="direccion" class="badge badge-dark"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                      <label class="text-left full-width" for="telefono">Telefono</label>
+                      <input disabled id="telefono" type="text" name="telefono" class="form-control"  value="">
+                      <span data-key="telefono" class="badge badge-dark"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                      <label class="text-left full-width" for="email">Correo</label>
+                      <input disabled id="email" type="text" name="email" class="form-control"  value="">
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="card box_producto">
+            <div class="card-header">
+              <h3 class="card-title"><strong style="text-transform: uppercase;">Producto</strong></h3>
+              <div class="card-tools float-right">
+                <h3 class="card-title"><strong style="color:green;text-transform: uppercase;">Datos de la venta</strong></h3>
+              </div>
+            </div>
+            <div class="card-body">
+              <table id="tablaP" class="table text-center">
+                <thead>
+                <tr>
+                  <th>Codigo</th>
+                  <th>Descripción</th>
+                  <th>Existencia</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Precio total</th>
+                  <th>Accion</th>
+                </tr>
+                </thead>
+                <tbody>
+                <td><input type="text" name="id_producto" id="id_producto" style="width:50px;text-align-last:center;"></td>
+                <td id="nombre_producto">-</td>
+                <td id="stock">-</td>
+                <td><input disabled type="text" name="cantidad_producto" id="cantidad_producto" style="width:70px;text-align-last:center;" value="0" min="1"></td>
+                <td id="valor_venta" class="textringht">0.00</td>
+                <td id="valor_venta_total" class="textringht">0.00</td>
+                <td><a href="#" id="add_producto_venta" class="link_add"><i class="fas fa-plus"></i>Agregar</a></td>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card box_detalle">
+            <div class="card-header">
+              <h3 class="card-title"><strong style="text-transform: uppercase;">Listado de Productos</strong></h3>
+              <div class="card-tools float-right">
+                <h3 class="card-title"><strong style="color:green;text-transform: uppercase;">Datos de la venta</strong></h3>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table text-center">
+                <thead>
+                <tr>
+                  <th>Codigo</th>
+                  <th>Descripción</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Precio total</th>
+                  <th>Accion</th>
+                </tr>
+                </thead>
+                <tbody id="tablaD">
+
+                </tbody>
+              </table>
+              <table class="table text-center">
+                <thead>
+                <tr>
+                  <th>SubTotal</th>
+                  <th>Iva</th>
+                  <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td id="subTotal">COP 0</td>
+                    <td id="iva">COP 0</td>
+                    <td id="total">COP 0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+$(document).ready(function() {
+
+  var stock = 0, producto, detalle = [], subTotal = 0, iva = 0, confir_id = false, confir_save = false;
+
+  $("#cancelarCliente").hide();
+  $("#procesar").attr('disabled','true');
+  $('#grabar').hide();
+  $('#add_producto_venta').hide();
+
+  $("#id").keyup(function(e) {
+    e.preventDefault();
+    $.post('cliente/consultar',{
+      id: $(this).val()
+    },function(r) {
+      if(r == null) {
+         $("#nombres").val('');
+         $("#apellidos").val('');
+         $("#direccion").val('');
+         $("#telefono").val('');
+         $("#email").val('');
+         $("#fcliente input").removeAttr('disabled');
+         $("#grabar").show();
+         confir_id = false;
+      } else {
+        $("#nombres").attr('disabled',true);
+        $("#apellidos").attr('disabled',true);
+        $("#direccion").attr('disabled',true);
+        $("#telefono").attr('disabled',true);
+        $("#email").attr('disabled',true);
+        $("#nombres").val(r.nombres);
+        $("#apellidos").val(r.apellidos);
+        $("#direccion").val(r.direccion);
+        $("#telefono").val(r.telefono);
+        $("#email").val(r.email);
+        $("#grabar").hide();
+        confir_id = true;
+      }
+    },'json');
+  });
+
+  $(".box_cliente").on("click","#grabar", function() {
+    if($("#id").val() != '') {
+      $.ajax({
+          url:  'cliente/guardar',
+          type: 'POST',
+          data:  $("#fcliente").serialize(),
+          dataType: 'json',
+          success: function(r) {
+            if(r.validations !== null) {
+              for(var k in r.validations) {
+                var vmessage = typeof(r.validations[k]) === 'array' ? r.validations[k][0] : r.validations[k];
+                $("span[data-key='" + k + "']").html(vmessage);
+              }
+            }
+            if(r.message !== null) {
+              if(r.message.length > 0) {
+                var tipo  = "";
+                if(r.response) {
+                    tipo = "success";
+                    $("#fcliente input").attr('disabled',true);
+                    $('#grabar').hide();
+                    confir_save = true;
+                } else {
+                    tipo = "error";
+                }
+                setTimeout(function() {
+                  Swal.fire({
+                    position: 'top-end',
+                    type: tipo,
+                    text: r.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                  });
+                }, 1000);
+              }
+            }
+          }
+      });
+    } else {
+      Swal.fire({
+        position: 'top-end',
+        type: 'warning',
+        text: 'Ingrese el numero de indentificación',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  })
+
+  $("#id_producto").keyup(function(e) {
+    e.preventDefault();
+    $.post('producto/consultar',{
+      id: $(this).val()
+    },function(r) {
+      if(r == null) {
+        reiniciarProducto();
+      } else {
+        $("#nombre_producto").html(r.descripcion);
+        $("#stock").html(r.stock);
+        $("#cantidad_producto").val('1');
+        $("#valor_venta").html(new Intl.NumberFormat("de-DE").format(r.precio));
+        $("#valor_venta_total").html(new Intl.NumberFormat("de-DE").format(r.precio));
+        $("#cantidad_producto").removeAttr('disabled');
+        $('#add_producto_venta').slideDown();
+        producto = new Object;
+        producto.producto_id = r.id;
+        producto.descripcion = r.descripcion;
+        producto.cantidad = 1;
+        producto.precio = r.precio;
+        producto.total = r.precio;
+        stock = r.stock;
+        $("#add_producto_venta").focus();
+      }
+    },'json');
+  });
+
+  $("#cantidad_producto").keyup(function(e) {
+    e.preventDefault();
+    producto.cantidad = $(this).val();
+    producto.total = producto.cantidad * producto.precio;
+    $("#valor_venta_total").html(new Intl.NumberFormat("de-DE").format(producto.total));
+    if($(this).val() < 1 || isNaN($(this).val()) || $(this).val() > parseInt(stock)) {
+      $("#add_producto_venta").slideUp();
+      $("#valor_venta").html('0.00');
+      $("#valor_venta_total").html('0.00');
+    } else {
+      $("#valor_venta").html(new Intl.NumberFormat("de-DE").format(producto.precio));
+      $("#add_producto_venta").slideDown();
+    }
+  });
+
+  $(".box_producto").on("click","#add_producto_venta", function() {
+    if(parseInt(producto.cantidad) < 1 || isNaN(producto.cantidad) || parseInt(producto.cantidad) > parseInt(stock)) {
+      Swal.fire({
+        position: 'top-end',
+        type: 'warning',
+        text: 'Accion no valida',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    } else {
+      if(detalle.length == 0) {
+        $("#procesar").removeAttr('disabled');
+      }
+      var confir  =  verificar_stock(producto);
+      if(confir == true) {
+       detalle.push(producto);
+       Cargar_detalle();
+      } else {
+        Swal.fire({
+          position: 'top-end',
+          type: 'warning',
+          text: 'Insuficientes existencias',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+      reiniciarProducto();
+      $("#id_producto").val('');
+    }
+  })
+
+  $(".box_detalle").on("click",".borrar", function() {
+    var index = $(this).data("codigo");
+    detalle.splice(index, 1);
+    Cargar_detalle();
+    if(detalle.length == 0) {
+      $("#procesar").attr('disabled','true');
+    }
+  })
+
+  $(".box_principal").on("click","#cancelar", function() {
+    reiniciarClienteTablas();
+  })
+
+  $(".box_principal").on("click","#procesar", function() {
+    if(detalle.length != 0 && ((confir_id == true && confir_save == false) || (confir_id == false && confir_save == true))) {
+      var factura = new Object;
+      factura.cliente_id = $("#id").val();
+      factura.iva = iva;
+      factura.total = subTotal;
+      factura.neto = factura.total+factura.iva;
+      var movimiento = procesar_movimiento();
+      $.post('venta/guardar',{factura,movimiento},
+      function(r) {
+        if(r.response) {
+          reiniciarClienteTablas();
+          var ancho = screen.width <= 1024 ? 800 : 1350;
+          var alto = screen.height <= 768 ? 520 : 850;
+          var x = parseInt((window.screen.width / 2) - (ancho / 2));
+          var y = parseInt((window.screen.height / 2) - (alto / 2));
+          window.open("{{'venta/pdf/'|url}}"+r.id,"Factura","left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbar=si,location=no,resizable=si,menubar=no");
+        } else {
+          Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            text: r.message,
+            showConfirmButton: false,
+            timer: 2000
+          });
+        }
+      },'json');
+    } else {
+      var message = detalle.length != 0 ? 'Ingrese el cliente' : 'Accion no valida';
+      Swal.fire({
+        position: 'top-end',
+        type: 'warning',
+        text: message,
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  })
+
+  function reiniciarProducto() {
+    $("#nombre_producto").html('-');
+    $("#stock").html('-');
+    $("#cantidad_producto").val('0');
+    $("#valor_venta").html('0.00');
+    $("#valor_venta_total").html('0.00');
+    $("#cantidad_producto").attr('disabled','true');
+    $('#add_producto_venta').slideUp();
+  }
+
+  function reiniciarClienteTablas() {
+    reiniciarProducto();
+    $("#fcliente")[0].reset();
+    detalle = [];
+    $("#tablaD").html('');
+    $("#subTotal").html('COP 0');
+    $("#iva").html('COP 0');
+    $("#total").html('COP 0');
+    $("#procesar").attr('disabled',true);
+  }
+
+  function verificar_stock(registro) {
+    var cant = 0;
+    $.each(detalle, function(index, value){
+      if(value.producto_id == registro.producto_id) {
+        cant = cant + parseInt(value.cantidad);
+      }
+    })
+    cant = cant + parseInt(registro.cantidad);
+    return cant <= stock ? true : false;
+  }
+
+  function Cargar_detalle() {
+    subTotal = 0, iva = 0;
+    $("#tablaD").empty();
+    $.each(detalle, function (index, value) {
+      $("#tablaD").append('<tr>'+
+      '<td>'+value.producto_id+'</td>'+
+      '<td>'+value.descripcion+'</td>'+
+      '<td>'+value.cantidad+'</td>'+
+      '<td>'+new Intl.NumberFormat("de-DE").format(value.precio)+'</td>'+
+      '<td>'+new Intl.NumberFormat("de-DE").format(value.total)+'</td>'+
+      '<td>'+'<button data-codigo="'+index+'" class="btn btn-danger btn-sm borrar"><i class="icon ion-md-trash"></i></button></td></tr>');
+      subTotal = subTotal + parseInt(value.total);
+    });
+    iva = subTotal*0.19;
+    $("#subTotal").html('COP '+new Intl.NumberFormat("de-DE").format(subTotal));
+    $("#iva").html('COP '+new Intl.NumberFormat("de-DE").format(iva));
+    $("#total").html('COP '+new Intl.NumberFormat("de-DE").format(subTotal+iva));
+    $('html, body').animate({scrollTop: $('.content').height()}, 800);
+  }
+
+  function procesar_movimiento() {
+    var cant = 0, movimiento = [], anterior;
+    detalle.sort(function(a,b){
+      if(a.producto_id > b.producto_id) {
+        return 1;
+      }
+      if(a.producto_id < b.producto_id) {
+        return -1;
+      }
+      return 0;
+    });
+    $.each(detalle, function(index,value) {
+    if(index != 0){
+      if(anterior.producto_id == value.producto_id) {
+        cant = cant + anterior.cantidad;
+      } else {
+        cant = cant + anterior.cantidad;
+        anterior.cantidad = cant;
+        anterior.total = cant*anterior.precio;
+        movimiento.push(anterior);
+        cant = 0;
+      }
+      if(index == detalle.length-1) {
+        cant = cant + parseInt(value.cantidad);
+        var elementos = new Object;
+        elementos.producto_id = value.producto_id;
+        elementos.descripcion = value.descripcion;
+        elementos.cantidad = cant;
+        elementos.precio = value.precio;
+        elementos.total = cant*parseInt(value.precio);
+        movimiento.push(elementos);
+      }
+    }
+    anterior = new Object;
+    anterior.producto_id = value.producto_id;
+    anterior.descripcion = value.descripcion;
+    anterior.cantidad = parseInt(value.cantidad);
+    anterior.precio = parseInt(value.precio);
+    })
+    // console.log(movimiento);
+    return movimiento;
+  }
+})
+</script>
+{% endblock %}

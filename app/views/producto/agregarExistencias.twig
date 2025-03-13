@@ -1,0 +1,36 @@
+<div id="modal_editadd" class="modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <form method="post" action="producto/actuexist">
+        <div class="header-modal">
+          <h5 class="modal-title"><i class="icon ion-md-cube"></i> Producto: {{model.descripcion}}</h5>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12">
+              <div class="alert-container"></div>
+              <input id="id" type="hidden" name="id" value="{{model.id}}">
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
+                    <label class="text-left full-width" for="descripcion">Entradas</label>
+                    <input id="entradas" type="text" name="entradas" class="form-control"  value="" style="text-align-last:center;">
+                    <span data-key="entradas" class="badge badge-dark"></span>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
+                  <label class="text-left full-width" for="stock">Stock</label>
+                  <input disabled id="stock" type="text" name="stock" class="form-control"  value="{{model.stock}}" style="text-align-last:center;">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
+                    <label class="text-left full-width" for="salidas">Salidas</label>
+                    <input disabled id="salidas" type="text" name="salidas" class="form-control"  value="{{model.salidas}}" style="text-align-last:center;">
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="footer-modal">
+          <button type="submit" data-ajax="true" class="btn btn-success btn-sm">Agregar</button>
+          <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

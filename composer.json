@@ -1,0 +1,15 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "require": {
+    "illuminate/database": "^6.11",
+    "phroute/phroute": "^2.1",
+    "twig/twig": "^3.0",
+    "respect/validation": "^1.1",
+    "intervention/image": "^2.5",
+    "dompdf/dompdf": "^0.8.3"
+  }
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Factura</title>
+    <style>
+      @import url("{{'fonts/BrixSansRegular.css'|assets}}");
+      @import url("{{'fonts/BrixSansBlack.css'|assets}}");
+      p, label, span, table {
+      	font-family: 'BrixSansRegular';
+      	font-size: 10pt;
+      }
+      .h2 {
+      	font-family: 'BrixSansBlack';
+      	font-size: 16pt;
+      }
+      .h3 {
+      	font-family: 'BrixSansBlack';
+      	font-size: 12pt;
+      	display: block;
+      	background: #0a4661;
+      	color: #FFF;
+      	text-align: center;
+      	padding: 3px;
+      	margin-bottom: 5px;
+      }
+      #page_pdf {
+      	width: 95%;
+      	margin: 15px auto 10px auto;
+      }
+      #html_head, #factura_cliente, #detalle_head {
+      	width: 100%;
+      	margin-bottom: 10px;
+      }
+      .info_empresa {
+      	width: 50%;
+      	text-align: center;
+      }
+      .datos_cliente tr td {
+      	width: 50%;
+      }
+      .datos_cliente {
+        width: 100%;
+      	padding: 10px 10px 0 10px;
+      }
+      .datos_cliente label {
+      	width: 75px;
+      	display: inline-block;
+      }
+      .datos_cliente p {
+      	display: inline-block;
+      }
+      .round {
+      	border-radius: 10px;
+      	border: 1px solid #0a4661;
+      	overflow: hidden;
+      	padding-bottom: 15px;
+      }
+      .round p {
+      	padding: 0 10px;
+      }
+      #detalle_head {
+      	border-collapse: collapse;
+      }
+      #detalle_head thead th {
+      	background: #058167;
+      	color: #FFF;
+      	padding: 5px;
+      }
+      #detalle_body tr:nth-child(even) {
+        background: #ededed;
+      }
+      #detalle_totales span {
+      	font-family: 'BrixSansBlack';
+      }
+      .label_gracias {
+      	font-family: verdana;
+      	font-weight: bold;
+      	font-style: italic;
+      	text-align: center;
+      	margin-top: 20px;
+      }
+      .anulada {
+      	position: absolute;
+      	left: 50%;
+      	top: 50%;
+      	transform: translateX(-50%) translateY(-50%);
+      }
+      .logo-block {
+          text-align: center;
+          min-width: 100px;
+          margin: 0 auto;
+          border-radius: 5px;
+          background:
+          rgba(0,0,0,.80);
+          color:
+          #000;
+          padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+  {% if (model.estado == 0) %}
+    <img class="anulada" src="./assets/img/anulado.png" alt="Anulada">
+  {% endif %}
+  <div id="page_pdf">
+    <table id="html_head">
+      <tr>
+        <td style="width: 25%;">
+          <div class="logo-block">
+            <img src="./assets/img/logo.png" style="width:100px;height:100px;">
+          </div>
+        </td>
+        <td class="info_empresa">
+          <div>
+            <span class="h2">Marc-posasy</span>
+            <p>Software development</p>
+            <p><strong>NIT:</strong> 1144198853-1</p>
+            <p><strong>Teléfono:</strong> 3137030828</p>
+            <p><strong>Email:</strong> mcerquera@programarte.com.co</p>
+          </div>
+        </td>
+        <td style="width: 25%;">
+          <div class="round">
+            <span class="h3">Factura</span>
+            <p><strong>No. Factura:</strong> {{ model.id }}</p>
+            <p><strong>Fecha:</strong> {{ model.created_at.date|date("d/m/Y") }}</p>
+            <p><strong>Vendedor:</strong> {{ model.usuario.nombres }} {{ model.usuario.apellidos }}</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <table id="factura_cliente">
+  		<tr>
+  			<td style="width: 100%;">
+  				<div class="round">
+  					<span class="h3">Cliente</span>
+  					<table class="datos_cliente">
+  						<tr>
+  							<td><strong>Identificación:</strong> {{model.cliente.id}}</td>
+  							<td><strong>Teléfono:</strong> {{model.cliente.telefono}}</td>
+  						</tr>
+  						<tr>
+  							<td><strong>Nombre:</strong> {{model.cliente.nombres}} {{model.cliente.apellidos}}</td>
+  							<td><strong>Dirección:</strong> {{model.cliente.direccion}}</td>
+  						</tr>
+  					</table>
+  				</div>
+  			</td>
+  		</tr>
+  	</table>
+    <table id="detalle_head">
+      <thead>
+        <tr>
+          <th width="50px">Cant.</th>
+          <th style="text-align: left;">Descripción</th>
+          <th style="text-align: right;" width="150px">Precio Unitario</th>
+          <th style="text-align: right;" width="150px">Precio Total</th>
+        </tr>
+      </thead>
+      <tbody id="detalle_body">
+        {% for d in model.detalle %}
+          <tr>
+            <td style="text-align: center;">{{ d.cantidad }}</td>
+            <td>{{ d.producto.descripcion }}</td>
+            <td style="text-align: right;">{{ d.precio|number_format(2) }}</td>
+            <td style="text-align: right;">{{ d.total|number_format(2) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot id="detalle_totales">
+        <tr>
+          <td colspan="3" style="text-align: right;"><span>Subtotal:</span></td>
+          <td style="text-align: right;"><span>{{ model.total|number_format(2) }}</span></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: right;"><span>Iva (19 %):</span></td>
+          <td style="text-align: right;"><span>{{ model.iva|number_format(2) }}</span></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: right;"><span>Total:</span></td>
+          <td style="text-align: right;"><span>{{ model.neto|number_format(2) }}</span></td>
+        </tr>
+    </tfoot>
+    </table>
+    <div>
+  		<h4 class="label_gracias">¡Gracias por su compra!</h4>
+  	</div>
+  </div>
+  </body>
+</html>

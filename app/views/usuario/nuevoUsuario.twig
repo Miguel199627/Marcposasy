@@ -1,0 +1,69 @@
+<div id="modal_editadd" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" action="usuario/guardar">
+        <div class="header-modal">
+          <h5 class="modal-title"><i class="icon ion-md-add"></i> Agregar {{title}}</h5>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12">
+            <div class="alert-container"></div>
+            <input id="id" type="hidden" name="id" value="">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="nombres">Nombre</label>
+                <input id="nombres" type="text" name="nombres" class="form-control"  value="" placeholder="Ingrese el nombre del usuario">
+                <span data-key="nombres" class="badge badge-dark"></span>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="apellidos">Apellido</label>
+                <input id="apellidos" type="text" name="apellidos" class="form-control"  value="" placeholder="Ingrese el apellido del usuario">
+                <span data-key="apellidos" class="badge badge-dark"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="email">Email</label>
+                <input id="email" type="text" name="email" class="form-control"  value="" placeholder="Ingrese el correo del usuario">
+                <span data-key="email" class="badge badge-dark"></span>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="estado">Estado</label>
+                <br>
+                <input id="estado" type="checkbox" name="estado" checked data-toggle="toggle" data-onstyle="success" data-offstyle="dark">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="contraseña">Contraseña</label>
+                <input id="contraseña" type="password" name="contraseña" class="form-control"  value="">
+                <span data-key="contraseña" class="badge badge-dark"></span>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="con_contraseña">Confirmar contraseña</label>
+                <input id="con_contraseña" type="password" name="con_contraseña" class="form-control"  value="">
+                <span data-key="con_contraseña" class="badge badge-dark"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="rol_id">Rol</label>
+                <select name="rol_id" class="form-control">
+                  <option value="" selected>Seleccione tipo rol</option>
+                  {% for rol in rol %}
+                    <option value="{{rol.id}}">{{rol.descripcion}}</option>
+                  {% endfor %}
+                </select>
+                <span data-key="rol_id" class="badge badge-dark"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-modal">
+          <button type="submit" data-ajax="true" class="btn btn-success btn-sm">Guardar</button>
+          <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

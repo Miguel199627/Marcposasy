@@ -1,0 +1,135 @@
+{% extends "include/layout.twig" %}
+{% block content %}
+<section class="content">
+  <div class="row mb-2">
+    <div class="col-md-12">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{{'home'|url}}"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item"><i class="fas fa-user-tag"></i> Roles</li>
+        </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><strong style="text-transform: uppercase;">Listado de {{title}}</strong></h3>
+          <div class="card-tools float-right">
+            <button class="btn btn-success btn-sm button-add">Nuevo</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="tabla" class="table table-striped table-bordered text-center" width="100%">
+              <thead>
+                <tr>
+                  <th>Acciones</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+$(document).ready(function() {
+
+  dt = $("#tabla").DataTable({
+        "ajax": {
+          "method"   : "post",
+          "url"      : "rol/grid",
+          "dataType" : "json"
+        },
+        "columns": [
+            { "data": "id",
+              render: function (data) {
+                return data == 1
+                ? '<button disabled class="btn btn-danger btn-xs borrar" title="Eliminar Rol"><i class="icon ion-md-trash"></i></button> <button disabled class="btn btn-success btn-xs editar" title="Editar Rol"><i class="icon ion-md-create"></i></button>'
+                : '<button class="btn btn-danger btn-xs borrar" title="Eliminar Rol"><i class="icon ion-md-trash"></i></button> <button class="btn btn-success btn-xs editar" title="Editar Rol"><i class="icon ion-md-create"></i></button>';
+              }
+            },
+            { "data": "descripcion" },
+        ]
+  });
+
+  $(".card-header").on("click",".button-add", function() {
+    $("#content_editadd").empty();
+    $.post('rol/crud',function(r) {
+      $("#content_editadd").html(r);
+      $('#modal_editadd').modal('show');
+    },'html');
+  })
+
+  $("#tabla").on("click",".editar", function() {
+    $("#content_editadd").empty();
+    var data = dt.row($(this).parents("tr")).data();
+    if(data.id !== 1) {
+      $.post('rol/crud',{
+        id: data.id
+      },function(r) {
+        $("#content_editadd").html(r);
+        $('#modal_editadd').modal('show');
+      },'html');
+    } else {
+      Swal.fire({
+        position: 'top-end',
+        type: 'warning',
+        text: 'Rol administrador no editable',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  })
+
+  $("#tabla").on("click",".borrar", function() {
+    var data = dt.row($(this).parents("tr")).data();
+    if(data.id !== 1) {
+      Swal.fire({
+        title: '¿Está seguro?',
+        text: "¿Realmente desea borrar el rol: " + data.descripcion + " ?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Borrarlo!'
+      }).then((decision) => {
+        if(decision.value) {
+          $.post('rol/eliminar',{
+            id: data.id
+          },function(r) {
+            dt.page( 'last' ).draw( 'page' );
+            dt.ajax.reload(null, false);
+            var tipo = r.response ? 'success' : 'error';
+            Swal.fire({
+              position: 'top-end',
+              type: tipo,
+              text: r.message,
+              showConfirmButton: false,
+              timer: 2000
+            });
+          },'json');
+        }
+      })
+    } else {
+      Swal.fire({
+        position: 'top-end',
+        type: 'warning',
+        text: 'Rol administrador no borrable',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  })
+})
+</script>
+{% endblock %}

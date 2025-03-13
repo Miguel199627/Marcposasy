@@ -1,0 +1,46 @@
+<div id="modal_editadd" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" action="rol/actualizar">
+        <div class="header-modal">
+          <h5 class="modal-title"><i class="icon ion-md-create"></i> Editar Rol</h5>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12">
+            <div class="alert-container"></div>
+            <input id="id" type="hidden" name="id" value="{{model.id}}">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="descripcion">Descripción</label>
+                <input id="descripcion" type="text" name="descripcion" class="form-control"  value="{{model.descripcion}}" placeholder="Ingrese la descripción">
+                <span data-key="descripcion" class="badge badge-dark"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="permisos">Modulos</label>
+                <br>
+                <input type="checkbox" {{ventas}} value="ventas" id="ventas" name="ventas"> Ventas<br>
+                <input type="checkbox" {{facturas}} value="facturas" id="facturas" name="facturas"> Facturas<br>
+                <input type="checkbox" {{ventaspormes}} value="ventaspormes" id="ventaspormes" name="ventaspormes"> Ventas por mes<br>
+                <input type="checkbox" {{productospormes}} value="productospormes" id="productospormes" name="productospormes"> Productos por mes<br>
+                <input type="checkbox" {{usuarios}} value="usuarios" id="usuarios" name="usuarios"> Usuarios<br>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <br>
+                <input type="checkbox" {{clientes}} value="clientes" id="clientes" name="clientes"> Clientes<br>
+                <input type="checkbox" {{productos}} value="productos" id="productos" name="productos"> Productos<br>
+                <input type="checkbox" {{marcas}} value="marcas" id="marcas" name="marcas"> Marcas<br>
+                <input type="checkbox" {{roles}} value="roles" id="roles" name="roles"> Roles<br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-modal">
+          <button type="submit" data-ajax="true" class="btn btn-success btn-sm">Actualizar</button>
+          <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+{% extends "include/layout.twig" %}
+{% block content %}
+<section class="content">
+  <div class="row mb-2">
+    <div class="col-md-12">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{{'home'|url}}"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item"><i class="fas fa-user"></i> Usuarios</li>
+        </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><strong style="text-transform: uppercase;">Listado de {{title}}</strong></h3>
+          <div class="card-tools float-right">
+            <button class="btn btn-success btn-sm button-add">Nuevo</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="tabla" class="table table-striped table-bordered text-center" width="100%">
+              <thead>
+                <tr>
+                  <th>Acciones</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Email</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+$(document).ready(function() {
+
+  dt = $("#tabla").DataTable({
+        "ajax": {
+          "method"   : "post",
+          "url"      : "usuario/grid",
+          "dataType" : "json"
+        },
+        "columns": [
+            { "defaultContent":
+                '<button class="btn btn-danger btn-xs borrar" title="Eliminar Usuario"><i class="icon ion-md-trash"></i></button> '+
+                '<button class="btn btn-success btn-xs editar" title="Editar Usuario"><i class="icon ion-md-create"></i></button>'
+            },
+            { "data": "nombres" },
+            { "data": "apellidos" },
+            { "data": "email" },
+            { "data": "rol.descripcion" },
+            { "data": "estado",
+                render: function (data) {
+                  return data == 1 ? 'Activo' : 'Inactivo';
+                }
+            }
+        ]
+  });
+
+  $(".card-header").on("click",".button-add", function() {
+    $("#content_editadd").empty();
+    $.post('usuario/crud',function(r) {
+      $("#content_editadd").html(r);
+      $('#modal_editadd').modal('show');
+      $('#estado').bootstrapToggle();
+    },'html');
+  })
+
+  $("#tabla").on("click",".editar", function() {
+    $("#content_editadd").empty();
+    var data = dt.row($(this).parents("tr")).data();
+    $.post('usuario/crud',{
+      id: data.id
+    },function(r) {
+      $("#content_editadd").html(r);
+      $('#modal_editadd').modal('show');
+      $('#estado').bootstrapToggle();
+    },'html');
+  })
+
+  $("#tabla").on("click",".borrar", function() {
+    var data = dt.row($(this).parents("tr")).data();
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: "¿Realmente desea borrar el usuario con correo: " + data.email + " ?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Borrarlo!'
+    }).then((decision) => {
+      if(decision.value) {
+        $.post('usuario/eliminar',{
+          id: data.id
+        },function(r) {
+          dt.page( 'last' ).draw( 'page' );
+          dt.ajax.reload(null, false);
+          var tipo = r.response ? 'success' : 'error';
+          Swal.fire({
+            position: 'top-end',
+            type: tipo,
+            text: r.message,
+            showConfirmButton: false,
+            timer: 2000
+          });
+        },'json');
+      }
+    })
+  })
+})
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% include('include/header.twig') %}
+<div id="content_editadd">
+</div>
+{% include('include/bar.twig') %}
+{% include('include/menu.twig') %}
+<div class="content-wrapper">
+  <div class="content-header">
+    {% block content %}{% endblock %}
+  </div>
+</div>
+<script> var dt; </script>
+{% include('include/footer.twig') %}
+
+{% block scripts %}{% endblock %}
+
+<script>
+  function redirect(url) { url = url || ''; window.location.href = base_url(url);}
+  function base_url(url) { url = url || ''; return '{{''|url}}' + url;}
+</script>
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+
+</body>
+</html>

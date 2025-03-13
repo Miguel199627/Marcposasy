@@ -1,0 +1,59 @@
+<div id="modal_editadd" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" action="producto/actualizar">
+        <div class="header-modal">
+          <h5 class="modal-title"><i class="icon ion-md-create"></i> Editar {{title}}</h5>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12">
+            <div class="alert-container"></div>
+            <input id="id" type="hidden" name="id" value="{{model.id}}">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="descripcion">Descripción</label>
+                <input id="descripcion" type="text" name="descripcion" class="form-control"  value="{{model.descripcion}}" placeholder="Ingrese la descripción del producto">
+                <span data-key="descripcion" class="badge badge-dark"></span>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="marca_id">Marca</label>
+                <select name="marca_id" class="form-control">
+                  <option value="" selected>Seleccione tipo marca</option>
+                  {% for marca in marcas %}
+                    <option value="{{marca.id}}" {{ model.marca_id == marca.id ? 'selected' : '' }}>{{marca.descripcion}}</option>
+                  {% endfor %}
+                </select>
+                <span data-key="marca_id" class="badge badge-dark"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="costo">Costo</label>
+                <input id="costo" type="text" name="costo" class="form-control"  value="{{model.costo}}" placeholder="Ingrese el costo del producto">
+                <span data-key="costo" class="badge badge-dark"></span>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="text-left full-width" for="precio">Precio</label>
+                <input id="precio" type="text" name="precio" class="form-control"  value="{{model.precio}}" placeholder="Ingrese el precio del producto">
+                <span data-key="precio" class="badge badge-dark"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                <label class="text-left full-width float-left" for="foto">Imagen</label>
+                <input id="foto" type="file" name="foto" class="form-control"  value="">
+                <span data-key="foto" class="badge badge-dark float-left"></span>
+                <br>
+                <img src= '{{ 'productos/'|uploads }}{{model.foto}}' class="img-thumbnail image-lg image-md image-sm image-xs" alt="Sin imagen">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-modal">
+          <button type="submit" data-ajax="true" class="btn btn-success btn-sm">Actualizar</button>
+          <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

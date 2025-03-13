@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ventas Por Mes</title>
+    <style>
+      @import url("{{'fonts/BrixSansRegular.css'|assets}}");
+      @import url("{{'fonts/BrixSansBlack.css'|assets}}");
+      p, label, span, table{
+      	font-family: 'BrixSansRegular';
+      	font-size: 10pt;
+      }
+      .h2{
+      	font-family: 'BrixSansBlack';
+      	font-size: 16pt;
+      }
+      .h3{
+      	font-family: 'BrixSansBlack';
+      	font-size: 12pt;
+      	display: block;
+      	background: #0a4661;
+      	color: #FFF;
+      	text-align: center;
+      	padding: 3px;
+      	margin-bottom: 5px;
+      }
+      #page_pdf{
+      	width: 95%;
+      	margin: 15px auto 10px auto;
+      }
+      #html_head, #detalle_head{
+      	width: 100%;
+      	margin-bottom: 10px;
+      }
+      .info_empresa{
+      	width: 50%;
+      	text-align: center;
+      }
+      .round{
+      	border-radius: 10px;
+      	border: 1px solid #0a4661;
+      	overflow: hidden;
+      	padding-bottom: 15px;
+      }
+      .round p{
+      	padding: 0 10px;
+      }
+      #detalle_head{
+      	border-collapse: collapse;
+      }
+      #detalle_head thead th{
+      	background: #058167;
+      	color: #FFF;
+      	padding: 5px;
+      }
+      #detalle_body tr:nth-child(even) {
+        background: #ededed;
+      }
+      .logo-block {
+          text-align: center;
+          min-width: 100px;
+          margin: 0 auto;
+          border-radius: 5px;
+          background:
+          rgba(0,0,0,.80);
+          color:
+          #000;
+          padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="page_pdf">
+    {% set mes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'] %}
+    <table id="html_head">
+      <tr>
+        <td style="width: 25%;">
+          <div class="logo-block">
+            <img src="./assets/img/logo.png" style="width:100px;height:100px;">
+          </div>
+        </td>
+        <td class="info_empresa">
+          <div>
+            <span class="h2">Marc-posasy</span>
+            <p>Software development</p>
+            <p><strong>NIT:</strong> 1144198853-1</p>
+            <p><strong>Teléfono:</strong> 3137030828</p>
+            <p><strong>Email:</strong> mcerquera@programarte.com.co</p>
+          </div>
+        </td>
+        <td style="width: 25%;text-align:center;">
+          <div class="round">
+            <span class="h3">Ventas Por Mes</span>
+            <img src="./assets/img/report.png">
+          </div>
+        </td>
+      </tr>
+    </table>
+    <table id="detalle_head" style="text-align: center;">
+      <thead>
+        <tr>
+          <th width="50px">Año</th>
+          <th width="100px">Mes</th>
+          <th width="150px">Costo</th>
+          <th width="150px">Ingreso</th>
+          <th width="150px">Utilidad</th>
+        </tr>
+      </thead>
+      <tbody id="detalle_body">
+        {% for d in model %}
+          <tr>
+            <td>{{ d.anio }}</td>
+            {% for m in mes %}
+              {% if (loop.index == d.mes) %}
+                <td>{{ m }}</td>
+              {% endif %}
+            {% endfor %}
+            <td>{{ d.costo|number_format(2) }}</td>
+            <td>{{ d.total|number_format(2) }}</td>
+            <td>{{ d.utilidad|number_format(2) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+{% extends "include/layout.twig" %}
+{% block content %}
+<section class="content">
+  <div class="row mb-2">
+    <div class="col-md-12">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{{'home'|url}}"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item"><i class="fas fa-user"></i> Perfil</li>
+        </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><strong style="text-transform: uppercase;">Edición del {{title}}</strong></h3>
+        </div>
+        <div class="card-body">
+          <form id="fperfil">
+            <div class="col-lg-12">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <label class="text-left full-width" for="nombres">Nombre</label>
+                  <input id="nombres" type="text" name="nombres" class="form-control"  value="{{model.nombres}}">
+                  <span data-key="nombres" class="badge badge-dark"></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <label class="text-left full-width" for="apellidos">Apellido</label>
+                  <input id="apellidos" type="text" name="apellidos" class="form-control"  value="{{model.apellidos}}">
+                  <span data-key="apellidos" class="badge badge-dark"></span>
+                </div>
+                <br>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <label class="text-left full-width" for="email">Email</label>
+                  <input id="email" type="text" name="email" class="form-control"  value="{{model.email}}">
+                  <span data-key="email" class="badge badge-dark"></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <label class="text-left full-width" for="foto">Fotografia</label>
+                  <input id="foto" type="file" name="foto" class="form-control"  value="">
+                  <span data-key="foto" class="badge badge-dark"></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <label class="text-left full-width" for="contraseña">Contraseña</label>
+                  <input id="contraseña" type="password" name="contraseña" class="form-control"  value="">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <label class="text-left full-width" for="con_contraseña">Confirmar contraseña</label>
+                  <input id="con_contraseña" type="password" name="con_contraseña" class="form-control"  value="">
+                  <span data-key="con_contraseña" class="badge badge-dark"></span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-success btn-sm actualizar">Actualizar</button>
+          <a href="{{'home'|url}}" class="btn btn-dark btn-sm">Cerrar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+$(document).ready(function() {
+
+  $(".card").on('click','.actualizar',function() {
+    $("#fperfil").ajaxSubmit({
+        url:  'perfil/actualizar',
+        type: 'POST',
+        dataType: 'json',
+        success: function(r) {
+          if(r.validations !== null) {
+            for(var k in r.validations) {
+              var vmessage = typeof(r.validations[k]) === 'array' ? r.validations[k][0] : r.validations[k];
+              $("span[data-key='" + k + "']").html(vmessage);
+            }
+          }
+          if(r.message !== null) {
+            if(r.message.length > 0) {
+              var tipo = r.response ? 'success' : 'error';
+              setTimeout(function() {
+                Swal.fire({
+                  position: 'top-end',
+                  type: tipo,
+                  text: r.message,
+                  showConfirmButton: false,
+                  timer: 2000
+                });
+              }, 500);
+              setTimeout(function() {
+                location.href = "{{'home'|url}}";
+              },2500)
+            }
+          }
+        }
+    });
+  })
+
+})
+</script>
+{% endblock %}

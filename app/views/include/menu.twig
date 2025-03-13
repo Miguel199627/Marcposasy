@@ -1,0 +1,88 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="#" class="brand-link">
+      <div align="center">
+      <img src="{{ 'img/logo.png'|assets }}" alt="Marc-posasy Logo" height="60" width="60">
+      <span class="brand-text font-weight-light">Marc-posasy</span>
+      </div>
+    </a>
+
+    <div class="sidebar">
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              {% if (Permissions('ventas') == true) %}
+                <li class="nav-item">
+                    <a href="{{'venta'|url}}" class="nav-link">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>Ventas</p>
+                    </a>
+                </li>
+              {% endif %}
+              {% if (Permissions('facturas') == true) %}
+              <li class="nav-item">
+                  <a href="{{'factura'|url}}" class="nav-link">
+                      <i class="fas fa-file-invoice-dollar"></i>
+                      <p>Facturas</p>
+                  </a>
+              </li>
+              {% endif %}
+              {% if (Permissions('ventaspormes') == true) %}
+              <li class="nav-item">
+                  <a href="{{'ventaspormes'|url}}" class="nav-link">
+                      <i class="fas fa-shopping-bag"></i>
+                      <p>Ventas por mes</p>
+                  </a>
+              </li>
+              {% endif %}
+              {% if (Permissions('productospormes') == true) %}
+              <li class="nav-item">
+                  <a href="{{'productospormes'|url}}" class="nav-link">
+                      <i class="fas fa-box"></i>
+                      <p>Productos por mes</p>
+                  </a>
+              </li>
+              {% endif %}
+              {% if (Permissions('usuarios') == true) %}
+              <li class="nav-item">
+                  <a href="{{'usuario'|url}}" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <p>Usuarios</p>
+                  </a>
+              </li>
+              {% endif %}
+              {% if (Permissions('clientes') == true) %}
+              <li class="nav-item">
+                  <a href="{{'cliente'|url}}" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <p>Clientes</p>
+                  </a>
+              </li>
+              {% endif %}
+              {% if (Permissions('productos') == true) %}
+              <li class="nav-item">
+                  <a href="{{'producto'|url}}" class="nav-link">
+                      <i class="fas fa-box"></i>
+                      <p>Productos</p>
+                  </a>
+              </li>
+              {% endif %}
+              {% if (Permissions('marcas') == true) %}
+              <li class="nav-item">
+                  <a href="{{'marca'|url}}" class="nav-link">
+                      <i class="fas fa-copyright"></i>
+                      <p>Marcas</p>
+                  </a>
+              </li>
+              {% endif %}
+              {% if (Permissions('roles') == true) %}
+              <li class="nav-item">
+                  <a href="{{'rol'|url}}" class="nav-link">
+                      <i class="fas fa-user-tag"></i>
+                      <p>Roles</p>
+                  </a>
+              </li>
+              {% endif %}
+            </ul>
+        </nav>
+    </div>
+</aside>

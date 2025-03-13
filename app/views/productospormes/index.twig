@@ -1,0 +1,145 @@
+{% extends "include/layout.twig" %}
+{% block content %}
+<section class="content">
+  <div class="row mb-2">
+    <div class="col-md-12">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a href="{{'home'|url}}"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item"><i class="fas fa-box"></i> Productos Por Mes</li>
+        </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
+              <h3 class="card-title"><strong style="text-transform: uppercase;">Listado de {{title}}</strong></h3>
+              <br>
+              <button class="btn btn-success btn-sm reporte">Generar PDF</button>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 right-lg right-md">
+              <label>
+                <strong>Filtro Mes</strong>
+                <select id="mes" name="mes" class="form-control">
+                    <option value="" selected>Seleccione...</option>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Setiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+              </label>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+              <label>
+                <strong>Filtro Año</strong>
+                <input id="año" name="año" class="form-control" style="width: 70px;text-align-last:center;" value="">
+              </label>
+              <button class="btn btn-primary btn-md filtrar" style="vertical-align:baseline" title="Buscar"><i class="fas fa-search"></i></button>
+              <button class="btn btn-dark btn-md reset" style="vertical-align:baseline" title="Reiniciar tabla"><i class="fas fa-redo"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="tabla" class="table table-striped table-bordered text-center" width="100%">
+              <thead>
+                <tr>
+                  <th>N° factura</th>
+                  <th>Año</th>
+                  <th>Mes</th>
+                  <th>Cantidad</th>
+                  <th>Producto</th>
+                  <th>Costo</th>
+                  <th>Ingreso</th>
+                  <th>Utilidad</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+$(document).ready(function() {
+
+  dt = $("#tabla").DataTable({
+      "ajax": {
+        "method"   : "post",
+        "data"     : function( d ) {
+          d.año = $('#año').val();
+          d.mes = $('#mes').val();
+        },
+        "url"      : "productospormes/grid",
+        "dataType" : "json"
+      },
+      "columns": [
+          { "data": "id"},
+          { "data": "anio"},
+          { "data": "mes",
+            render: function(data) {
+              return parseInt(data).toMonth();
+            }
+          },
+          { "data": "cantidad"},
+          { "data": "producto"},
+          { "data": "costo",
+            render: function(data) {
+              return 'COP '+new Intl.NumberFormat("de-DE").format(data);
+            }
+          },
+          { "data": "total",
+            render: function(data) {
+              return 'COP '+new Intl.NumberFormat("de-DE").format(data);
+            }
+          },
+          { "data": "utilidad",
+            render: function(data) {
+              return 'COP '+new Intl.NumberFormat("de-DE").format(data);
+            }
+          }
+      ]
+  });
+
+  $(".card").on("click",".filtrar", function() {
+    dt.page( 'last' ).draw( 'page' );
+    dt.ajax.reload(null, false);
+  })
+
+  $(".card").on("click",".reset", function() {
+    $('#año').val('');
+    $("#mes").val('');
+    dt.page( 'last' ).draw( 'page' );
+    dt.ajax.reload(null, false);
+  })
+
+  $(".card").on("click",".reporte", function() {
+    var ancho = window.screen.width <= 1024 ? 800 : 1350;
+    var alto = window.screen.height <= 768 ? 520 : 850;
+    var x = parseInt((window.screen.width / 2) - (ancho / 2));
+    var y = parseInt((window.screen.height / 2) - (alto / 2));
+    var año = $('#año').val() == '' ? null : $('#año').val(); 
+    window.open("{{'productospormes/pdf/'|url}}"+año+"/"+$('#mes').val(),"Ventas por mes","left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbar=si,location=no,resizable=si,menubar=no");
+  })
+
+})
+</script>
+{% endblock %}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Marc-posasy | {{title}}</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ 'fontawesome-free/css/all.min.css'|bower_components }}">
+  <!-- Ionicons -->
+  <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{{ 'tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'|bower_components }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ 'css/adminlte.min.css'|assets }}">
+  <!-- Style -->
+  <link rel="stylesheet" href="{{ 'css/style.css'|assets }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition login-page" style="background: currentColor;">
+<div class="login-box">
+  <div class="login-logo">
+    <img src="{{ 'img/logo.png'|assets }}" alt="Marc-posasy Logo" height="150" width="150">
+    <span class="brand-text font-weight-light" style="color:white;">Marc-posasy</span>
+  </div>
+  <!-- /.login-logo -->
+  <div class="auth-block">
+      <p class="login-box-msg" style="-webkit-text-stroke-width: medium;color:green">Inicio de sesión</p>
+      <div class="alert-container"></div>
+      <form role="form" method="post" action="auth/signin">
+        <div class="input-group mb-3">
+          <input type="email" name="email" class="form-control" placeholder="Email">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+            <button data-ajax="true" type="submit" class="btn btn-success btn-block">Iniciar sesión</button>
+        </div>
+      </form>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+<script>var dt;</script>
+<!-- jQuery 3.4.1 -->
+<script src="{{ 'jquery/jquery.min.js'|bower_components }}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ 'bootstrap/js/bootstrap.bundle.min.js'|bower_components }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ 'js/adminlte.js'|assets }}"></script>
+<!--Sweetalert2-->
+<script src="{{ 'sweetalert2/sweetalert2.all.js'|bower_components }}"></script>
+<!-- Malsup -->
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<!-- Ajax-simplificado -->
+<script src="{{ 'js/ini.js'|assets }}"></script>
+<script>
+  function redirect(url) { url = url || ''; window.location.href = base_url(url);}
+  function base_url(url) { url = url || ''; return '{{''|url}}' + url;}
+</script>
+</body>
+</html>
